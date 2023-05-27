@@ -1,3 +1,4 @@
+import { NotificationsProvider } from '@/providers/NotificationsProvider';
 import '@/styles/globals.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
@@ -27,7 +28,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       initialSession={null}>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider>
-          {getLayout(<Component {...pageProps} />)}
+          <NotificationsProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </NotificationsProvider>
         </ChakraProvider>
       </QueryClientProvider>
     </SessionContextProvider>

@@ -16,6 +16,11 @@ const HomePage: NextPageWithLayout = () => {
   return (session &&
     <AuthGuard>
       <WelcomeUserHeader id={session.user.id} />
+      <Button onClick={async () => {
+        await fetch('http://localhost:3000/api/teams', {
+          method: 'POST'
+        });
+      }}>Create Team</Button>
     </AuthGuard>
   );
 };
