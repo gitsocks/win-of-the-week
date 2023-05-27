@@ -1,4 +1,5 @@
 import { createUser } from "@/api/users/create-user";
+import { fetchUser } from "@/api/users/fetch-user";
 import type { User } from "@prisma/client";
 import { Body, Get, HttpCode, Param, Post, Req, createHandler } from "next-api-decorators";
 
@@ -14,11 +15,8 @@ class UsersHandler {
     }
 
     @Get('/:id')
-    user(@Param('id') id: string) {
-        return {
-            id: id,
-            fullName: 'Billy Anderson'
-        };
+    async user(@Param('id') id: string) {
+        return await fetchUser(id);
     }
 
     @Post()

@@ -1,23 +1,22 @@
-import { Button, Heading, Spinner, useColorMode } from "@chakra-ui/react";
+import { Button, Heading, Spinner } from "@chakra-ui/react";
 import { useSessionContext } from "@supabase/auth-helpers-react";
-import { useRouter } from "next/router";
-import { ReactElement, useEffect } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { NextPageWithLayout } from "./_app";
 import { MainLayout } from "@/components/layouts/MainLayout";
+import { AuthGuard } from "@/components/guards/AuthGuard";
+import { WelcomeUserHeader } from "@/components/headers/WelcomeUserHeader";
 
 const HomePage: NextPageWithLayout = () => {
   const { isLoading, session } = useSessionContext();
 
-  return (isLoading ? <Spinner /> : (
-    <>
-      {session ? (
-        <Heading>Welcome back User!</Heading>
-      ) : (
-        <Heading>Celebrate small wins in your team!</Heading>
-      )
-      }
-    </>
-  )
+  if (isLoading) {
+    return <Spinner size="xl" />;
+  }
+
+  return (session &&
+    <AuthGuard>
+      <WelcomeUserHeader id={session.user.id} />
+    </AuthGuard>
   );
 };
 
