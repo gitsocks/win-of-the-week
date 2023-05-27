@@ -12,13 +12,26 @@
     "@chakra-ui/react": "^2.6.1",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@prisma/client": "^4.14.1",
+    "@supabase/auth-helpers-nextjs": "^0.7.0",
+    "@supabase/auth-helpers-react": "^0.4.0",
+    "@supabase/supabase-js": "^2.23.0",
     "@types/node": "18.16.3",
     "@types/react": "18.2.4",
     "@types/react-dom": "18.2.3",
     "framer-motion": "^10.12.16",
     "next": "13.3.4",
+    "next-api-decorators": "^2.0.2",
+    "path-to-regexp": "^6.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.1",
+    "@babel/plugin-proposal-decorators": "^7.22.0",
+    "babel-plugin-parameter-decorator": "^1.0.16",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "prisma": "^4.14.1"
   }
 }

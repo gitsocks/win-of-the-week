@@ -1,28 +1,23 @@
-import { Heading, Text } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
+import { useUser } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-export async function getStaticProps() {
-  const helloWorld = process.env.HELLO_WORLD;
-  const anotherVariable = process.env.ANOTHER_VARIABLE;
+const HomePage = () => {
+  const router = useRouter();
+  const user = useUser();
 
-  return {
-    props: {
-      helloWorld,
-      anotherVariable
+  useEffect(() => {
+    if (!user) {
+      router.push({
+        pathname: '/auth/login'
+      });
     }
-  };
-}
+  }, [user]);
 
-export interface HomePageProps {
-  helloWorld: string;
-  anotherVariable: string;
-}
-
-const HomePage = ({ helloWorld, anotherVariable }: HomePageProps) => {
   return (
     <>
-      <Heading>Welcome to Win of the Week</Heading>
-      <Text>{helloWorld || 'No helloWorld found'}</Text>
-      <Text>{anotherVariable || 'No anotherVariable found'}</Text>
+      <Heading size='2xl'>Welcome to Win of the Week</Heading>
     </>
   );
 };
