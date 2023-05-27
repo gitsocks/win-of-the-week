@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, useColorMode, useColorModeValue, useToast } from "@chakra-ui/react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
 
@@ -27,7 +27,8 @@ export const LoginForm = ({ loginSuccess, onRegisterClick }: LoginFormProps) => 
                 status: "error",
                 duration: 9000,
                 isClosable: true,
-                position: 'top',
+                position: 'bottom-left',
+                variant: "left-accent"
             });
             return;
         }
@@ -38,15 +39,15 @@ export const LoginForm = ({ loginSuccess, onRegisterClick }: LoginFormProps) => 
 
     return (
         <Box>
-            <Heading size='lg'>Login to account</Heading>
-            <FormControl>
+            <Heading size='lg' mb={6}>Login to account</Heading>
+            <FormControl mb={2}>
                 <FormLabel>Email</FormLabel>
-                <Input type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                <Input placeholder="john.doe@example.com" variant='filled' type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
             </FormControl>
-            <FormControl>
+            <FormControl mb={2}>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
-                    <Input type={showPassword ? 'text' : 'password'} value={password} onChange={(event) => setPassword(event.target.value)} />
+                    <Input placeholder="*******" variant='filled' type={showPassword ? 'text' : 'password'} value={password} onChange={(event) => setPassword(event.target.value)} />
                     <InputRightElement width='4.5rem'>
                         <Button h='1.75rem' size='sm' onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? 'Hide' : 'Show'}
@@ -54,12 +55,10 @@ export const LoginForm = ({ loginSuccess, onRegisterClick }: LoginFormProps) => 
                     </InputRightElement>
                 </InputGroup>
             </FormControl>
-            <Box>
-                <Button onClick={handleSignIn}>Sign In</Button>
-            </Box>
-            <Box>
-                <Button variant="link" onClick={handleRegisterAccountClick}>Register an account</Button>
-            </Box>
+            <Flex direction='column'>
+                <Button mt={4} mb={4} colorScheme="teal" onClick={handleSignIn}>Sign In</Button>
+                <Button mb={4} variant="link" onClick={handleRegisterAccountClick}>Register an account?</Button>
+            </Flex>
         </Box>
     );
 };

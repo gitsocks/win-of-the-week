@@ -1,11 +1,14 @@
 import { RegisterForm } from "@/components/forms/RegisterForm/RegisterForm";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
+import { NextPageWithLayout } from "../_app";
+import { BaseLayout } from "@/components/layouts/BaseLayout";
 
-const RegisterPage = () => {
+const RegisterPage: NextPageWithLayout = () => {
     const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const formBackground = useColorModeValue("gray.100", "gray.700");
 
     const handleSuccessfulRegister = () => onOpen();
 
@@ -16,7 +19,12 @@ const RegisterPage = () => {
 
     return (
         <>
-            <RegisterForm onSuccessfulRegister={handleSuccessfulRegister} />
+            <Flex justifyContent='space-around' alignItems='center' height='90vh'>
+                <Box width='sm' padding='4' backgroundColor={formBackground} borderRadius='8'>
+                    <RegisterForm onSuccessfulRegister={handleSuccessfulRegister} onLoginClick={() => router.push('/auth/login')} />
+                </Box>
+            </Flex>
+
             <Modal isOpen={isOpen} onClose={handleModalClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -36,5 +44,7 @@ const RegisterPage = () => {
         </>
     );
 };
+
+RegisterPage.getLayout = (page: ReactElement) => <BaseLayout>{page}</BaseLayout>;
 
 export default RegisterPage;

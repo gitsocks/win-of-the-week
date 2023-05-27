@@ -1,25 +1,29 @@
-import { Heading } from "@chakra-ui/react";
-import { useUser } from "@supabase/auth-helpers-react";
+import { Button, Heading, useColorMode } from "@chakra-ui/react";
+import { useSession } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { ReactElement, useEffect } from "react";
+import { NextPageWithLayout } from "./_app";
+import { MainLayout } from "@/components/layouts/MainLayout";
 
-const HomePage = () => {
+const HomePage: NextPageWithLayout = () => {
   const router = useRouter();
-  const user = useUser();
-
+  const session = useSession();
+  const { toggleColorMode, colorMode } = useColorMode();
   useEffect(() => {
-    if (!user) {
-      router.push({
-        pathname: '/auth/login'
-      });
-    }
-  }, [user]);
+    console.log('session', session);
+  }, [session]);
 
   return (
     <>
-      <Heading size='2xl'>Welcome to Win of the Week</Heading>
+      {session ? (
+        <Heading>Welcome back User!</Heading>
+      ) : (
+        <Heading>Celebrate small wins in your team!</Heading>
+      )}
     </>
   );
 };
+
+HomePage.getLayout = (page: ReactElement) => <MainLayout>{page}</MainLayout>;
 
 export default HomePage;
