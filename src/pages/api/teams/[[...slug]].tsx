@@ -1,7 +1,7 @@
 import { Body, Post, createHandler } from "next-api-decorators";
 import { Knock } from '@knocklabs/node';
 
-const knock = new Knock(process.env.KNOCK_PUBLIC_API_KEY);
+const knock = new Knock(process.env.KNOCK_API_KEY);
 
 interface Team {
     name: string;
