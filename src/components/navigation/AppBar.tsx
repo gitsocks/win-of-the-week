@@ -1,12 +1,32 @@
-import { Box, Button, Flex, Heading, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, IconButton, Spinner, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { SunIcon, MoonIcon } from '@chakra-ui/icons';
+import { SwitchThemeIconButton } from "../buttons/SwitchThemeIconButton";
+import { AppBarMenu } from "../menus/AppBarMenu";
+import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 export const AppBar = () => {
-    const { toggleColorMode, colorMode } = useColorMode();
+    const router = useRouter();
+    const { session } = useSessionContext();
     const boxBackgroundColor = useColorModeValue("teal.300", "teal.600");
+
+    const handleSignOutClick = () => {
+
+    };
+
     return (
         <Flex paddingY={2} paddingX={4} alignItems="center" justifyContent="space-between" backgroundColor={boxBackgroundColor}>
             <Heading size="md">Win of the Week</Heading>
-            <Button onClick={toggleColorMode}>{colorMode}</Button>
+            <Flex alignItems="center">
+                <SwitchThemeIconButton />
+                {session ? <AppBarMenu /> : (
+                    <Flex>
+                        <Button colorScheme="teal" variant="solid" onClick={() => router.push('/auth/login')}>Login</Button>
+                        <Button colorScheme="teal" variant="outline" onClick={() => router.push('/auth/register')}>Register</Button>
+                    </Flex>
+                )}
+
+            </Flex>
         </Flex>
     );
 };

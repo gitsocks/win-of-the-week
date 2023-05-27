@@ -16,13 +16,7 @@ type AppPropsWithLayout = AppProps & {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
-  const [supabaseClient] = useState(() => createPagesBrowserClient());
-
   return getLayout(
-    <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}>
-      <Component {...pageProps} />
-    </SessionContextProvider>
+    <Component {...pageProps} />
   );
 }
