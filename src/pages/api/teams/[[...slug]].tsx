@@ -1,5 +1,10 @@
-import { Body, Post, createHandler } from "next-api-decorators";
+import { Body, Post, Req, Res, createHandler } from "next-api-decorators";
 import { Knock } from '@knocklabs/node';
+import { createTeam } from "@/api/handlers/teams/create-team.handler";
+import { Authorize } from "@/api/middleware/authorize";
+import type { UserApiRequest } from "@/api/middleware/authorize";
+import { CreateTeamDto } from "@/api/dtos/create-team.dto";
+import type { NextApiResponse } from "next";
 
 const knock = new Knock(process.env.NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY);
 
@@ -8,14 +13,17 @@ interface Team {
 }
 
 class TeamsHandler {
+
     @Post()
-    async createTeam(@Body() team: Team) {
-        await knock.workflows.trigger('create-team', {
-            data: {
-                project_name: 'Win of the Week'
-            },
-            recipients: ['21335af3-71d1-4e56-99c8-dca35af8a94e']
-        });
+    @Authorize()
+    async createTeam(@Req() req: UserApiRequest, @Res() res: NextApiResponse, @Body() team: Team) {
+        const teamToCreate: CreateTeamDto = { name: team.name, createdBy: req.userId };
+        try {
+            const createdTeam = await createTeam(teamToCreate);
+            res.status(201).send(createdTeam);
+        } catch (error) {
+            res.status(400).send((error as any).message);
+        }
     }
 }
 

@@ -5,9 +5,14 @@ import { NextPageWithLayout } from "./_app";
 import { MainLayout } from "@/components/layouts/MainLayout";
 import { AuthGuard } from "@/components/guards/AuthGuard";
 import { WelcomeUserHeader } from "@/components/headers/WelcomeUserHeader";
+import { useTeamService } from "@/services/team/team-service";
 
 const HomePage: NextPageWithLayout = () => {
   const { isLoading, session } = useSessionContext();
+  const { createTeam } = useTeamService();
+  const handleCreateTeam = async () => {
+    await createTeam({ name: 'Pickle Berry' });
+  };
 
   if (isLoading) {
     return <Spinner size="xl" />;
@@ -16,12 +21,8 @@ const HomePage: NextPageWithLayout = () => {
   return (session &&
     <AuthGuard>
       <WelcomeUserHeader id={session.user.id} />
-      <Button onClick={async () => {
-        await fetch('/api/teams', {
-          method: 'POST'
-        });
-      }}>Create Team</Button>
-    </AuthGuard>
+      <Button onClick={handleCreateTeam}>Create Team</Button>
+    </AuthGuard >
   );
 };
 
