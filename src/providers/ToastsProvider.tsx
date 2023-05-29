@@ -6,7 +6,7 @@ export const ToastsProvider = ({ children }: PropsWithChildren) => {
     const { feedClient } = useKnockFeed();
     const toast = useToast();
 
-    const onNotificationsReceived = ({ items }: any) => {
+    const onNotificationsReceived = async ({ items }: any) => {
         items.forEach((item: any) => {
             console.log(item);
             const key = item.source.key;
@@ -24,7 +24,7 @@ export const ToastsProvider = ({ children }: PropsWithChildren) => {
             }
         });
 
-        feedClient.markAsSeen(items);
+        await feedClient.markAsSeen(items);
     };
 
     useEffect(() => {
