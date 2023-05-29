@@ -47,7 +47,7 @@ export const RegisterForm = ({ onSuccessfulRegister, onLoginClick }: RegisterFor
 
         const data = { id: response.data.user.id, fullName: fullname };
 
-        await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
+        await fetch(`/api/users`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
