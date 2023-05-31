@@ -6,13 +6,10 @@ import { MainLayout } from "@/components/layouts/MainLayout";
 import { AuthGuard } from "@/components/guards/AuthGuard";
 import { WelcomeUserHeader } from "@/components/headers/WelcomeUserHeader";
 import { useTeamService } from "@/services/team/team-service";
+import { AppGuard } from "@/components/guards/AppGuard";
 
 const HomePage: NextPageWithLayout = () => {
   const { isLoading, session } = useSessionContext();
-  const { createTeam } = useTeamService();
-  const handleCreateTeam = async () => {
-    await createTeam({ name: 'Pickle Berry' });
-  };
 
   if (isLoading) {
     return <Spinner size="xl" />;
@@ -20,8 +17,7 @@ const HomePage: NextPageWithLayout = () => {
 
   return (session &&
     <AuthGuard>
-      <WelcomeUserHeader id={session.user.id} />
-      <Button onClick={handleCreateTeam}>Create Team</Button>
+      <AppGuard session={session} />
     </AuthGuard >
   );
 };
