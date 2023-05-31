@@ -12,3 +12,8 @@ export const useFetchTeamMembersQuery = (id: string, filter?: string) => {
 
     return useQuery(['teams', id, 'members', filter], () => fetchMembers(id, filter));
 };
+
+export const useFetchTeamShoutoutsQuery = (id: string, filter?: string) => {
+    const { fetchShoutouts } = useTeamService();
+    return useQuery(['teams', id, 'shoutouts', filter], () => fetchShoutouts(id, filter));
+};

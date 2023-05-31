@@ -7,6 +7,7 @@ import { CreateTeamDto } from "@/api/dtos/create-team.dto";
 import type { NextApiResponse } from "next";
 import { getTeamById } from "@/api/handlers/teams/get-team-by-id.handler";
 import { getMembers } from "@/api/handlers/teams/get-members.handler";
+import { getTeamShoutouts } from "@/api/handlers/teams/get-team-shoutouts.handler";
 
 const knock = new Knock(process.env.NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY);
 
@@ -33,6 +34,14 @@ class TeamsHandler {
     async getTeamMembers(@Param('id') id: string, @Res() res: NextApiResponse, @Query('filter') filter?: string) {
         const members = await getMembers(id, filter);
         res.send(members);
+    }
+
+    @Get('/:id/shoutouts')
+    @Authorize()
+    async getTeamShoutouts(@Param('id') id: string, @Res() res: NextApiResponse, @Query('userId') userId?: string) {
+        const shoutouts = await getTeamShoutouts(id, userId);
+        console.log(shoutouts);
+        res.send(shoutouts);
     }
 
     @Post()

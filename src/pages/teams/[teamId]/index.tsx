@@ -3,10 +3,10 @@ import { MembersList } from "@/components/lists/MembersList";
 import { NewShoutoutModal } from "@/components/modals/NewShoutoutModal";
 import { SideBar } from "@/components/navigation/SideBar";
 import { NextPageWithLayout } from "@/pages/_app";
-import { useFetchTeamQuery } from "@/services/team/team-queries";
+import { useFetchTeamQuery, useFetchTeamShoutoutsQuery } from "@/services/team/team-queries";
 import { getCurrentWeek } from "@/utils/week";
 import { ArrowRightIcon } from "@chakra-ui/icons";
-import { Box, Card, CardBody, Flex, HStack, Heading, Icon, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
@@ -16,6 +16,7 @@ const TeamPage: NextPageWithLayout = () => {
     const [showNewShoutoutModal, setShowNewShoutoutModal] = useState(false);
     const { teamId } = router.query;
     const { data: team, isLoading } = useFetchTeamQuery(teamId as string);
+    const { data: shoutouts } = useFetchTeamShoutoutsQuery(teamId as string);
     const { startOfTheWeek, endOfTheWeek, weekNumber } = getCurrentWeek();
 
     useEffect(() => {
@@ -52,6 +53,19 @@ const TeamPage: NextPageWithLayout = () => {
                             </Flex>
                         </CardBody>
                     </Card>
+                    {shoutouts && shoutouts.map((shoutout: any) => (
+                        <Card my={4}>
+                            <CardBody>
+                                <Flex justifyContent='space-between' alignItems="center">
+                                    <Box>
+                                        <Heading size="xs">{shoutout.user.fullName}</Heading>
+                                        <Text>{shoutout.shoutout}</Text>
+                                    </Box>
+                                    <IconButton variant="outline" aria-label="Nominate" icon={<>🏆</>} />
+                                </Flex>
+                            </CardBody>
+                        </Card>
+                    ))}
                 </Box>
                 <MembersList />
             </Flex>
