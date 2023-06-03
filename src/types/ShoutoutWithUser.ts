@@ -4,4 +4,7 @@ export type ShoutoutWithUser = Shoutout & {
     user: {
         fullName: string;
     };
+    nominations: {
+        userId: string;
+    }[];
 };

@@ -17,6 +17,11 @@ export const getTeamShoutouts = async (teamId: string, weekNumber: number, userI
                 select: {
                     fullName: true
                 }
+            },
+            nominations: {
+                select: {
+                    userId: true
+                }
             }
         }
     });

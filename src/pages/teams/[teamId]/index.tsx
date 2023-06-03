@@ -10,8 +10,7 @@ import { getWeekDates } from "@/utils/week";
 import { Box, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Confetti from "react-confetti";
-import { useWindowSize } from "react-use";
+
 
 const TeamPage: NextPageWithLayout = () => {
     const router = useRouter();
@@ -20,7 +19,7 @@ const TeamPage: NextPageWithLayout = () => {
     const { data: team, isLoading } = useFetchTeamQuery(teamId as string);
     const { weekNumber: initialWeekNumber, formattedEndOfWeek, formattedStartOfWeek } = getWeekDates();
     const [weekNumber, setWeekNumber] = useState(initialWeekNumber);
-    const { data: shoutouts } = useFetchTeamShoutoutsQuery(teamId as string, weekNumber);
+    const { data: shoutouts, isFetching } = useFetchTeamShoutoutsQuery(teamId as string, weekNumber);
     const [startOfWeek, setStartOfWeek] = useState('');
     const [endOfWeek, setEndOfWeek] = useState('');
 
@@ -71,7 +70,7 @@ const TeamPage: NextPageWithLayout = () => {
                         </CardBody>
                     </Card>
                     {shoutouts && shoutouts.map((shoutout: ShoutoutWithUser) => (
-                        <ShoutoutCard key={shoutout.id} shoutout={shoutout} />
+                        <ShoutoutCard key={shoutout.id} shoutout={shoutout} isFetching={isFetching} />
                     ))}
                 </Box>
                 <MembersList />
