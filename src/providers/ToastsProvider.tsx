@@ -8,7 +8,6 @@ export const ToastsProvider = ({ children }: PropsWithChildren) => {
 
     const onNotificationsReceived = async ({ items }: any) => {
         items.forEach((item: any) => {
-            console.log(item);
             const key = item.source.key;
             switch (key) {
                 case 'create-team':

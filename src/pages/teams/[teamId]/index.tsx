@@ -1,12 +1,11 @@
+import { SaturdaySelector } from "@/components/inputs/SaturdaySelector/SaturdaySelector";
 import { MainLayout } from "@/components/layouts/MainLayout";
 import { MembersList } from "@/components/lists/MembersList";
 import { NewShoutoutModal } from "@/components/modals/NewShoutoutModal";
-import { SideBar } from "@/components/navigation/SideBar";
 import { NextPageWithLayout } from "@/pages/_app";
 import { useFetchTeamQuery, useFetchTeamShoutoutsQuery } from "@/services/team/team-queries";
-import { getCurrentWeek } from "@/utils/week";
-import { ArrowRightIcon } from "@chakra-ui/icons";
-import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Text, useToast } from "@chakra-ui/react";
+import { getWeekDates } from "@/utils/week";
+import { Box, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
@@ -16,8 +15,21 @@ const TeamPage: NextPageWithLayout = () => {
     const [showNewShoutoutModal, setShowNewShoutoutModal] = useState(false);
     const { teamId } = router.query;
     const { data: team, isLoading } = useFetchTeamQuery(teamId as string);
-    const { data: shoutouts } = useFetchTeamShoutoutsQuery(teamId as string);
-    const { startOfTheWeek, endOfTheWeek, weekNumber } = getCurrentWeek();
+    const { weekNumber: initialWeekNumber, formattedEndOfWeek, formattedStartOfWeek } = getWeekDates();
+    const [weekNumber, setWeekNumber] = useState(initialWeekNumber);
+    const { data: shoutouts } = useFetchTeamShoutoutsQuery(teamId as string, weekNumber);
+    const [startOfWeek, setStartOfWeek] = useState('');
+    const [endOfWeek, setEndOfWeek] = useState('');
+
+    const handleWeekChange = (newWeek: number) => {
+        setWeekNumber(newWeek);
+    };
+
+    useEffect(() => {
+        setWeekNumber(initialWeekNumber);
+        setStartOfWeek(formattedStartOfWeek);
+        setEndOfWeek(formattedEndOfWeek);
+    }, []);
 
     useEffect(() => {
         const handleKeyDown = (event: any) => {
@@ -38,8 +50,10 @@ const TeamPage: NextPageWithLayout = () => {
             <Flex justifyContent="space-between" width="full">
                 <Box width="full" paddingRight={5}>
                     <Heading>{isLoading ? 'Loading ...' : team.name}</Heading>
-                    <Heading size="sm">Week {weekNumber} | {startOfTheWeek} - {endOfTheWeek}</Heading>
-
+                    <Flex justifyContent="space-between" alignItems="center">
+                        <Heading size="sm">Week {weekNumber} | {startOfWeek} - {endOfWeek}</Heading>
+                        <SaturdaySelector weekNumber={weekNumber} onWeekChange={handleWeekChange} />
+                    </Flex>
                     <Card onClick={() => setShowNewShoutoutModal(true)} mt={4}>
                         <CardBody padding={3}>
                             <Flex justifyContent="space-between">

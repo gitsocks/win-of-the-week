@@ -41,4 +41,5 @@ model Shoutout {
   team     Team   @relation(fields: [teamId], references: [id])
   teamId   String
   authorId String
+  dateCreated DateTime @default(now())
 }

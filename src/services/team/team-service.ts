@@ -11,8 +11,8 @@ export const useTeamService = () => {
         return response.json();
     };
 
-    const fetchShoutouts = async (id: string, filter?: string) => {
-        const response = await fetch(`/api/teams/${id}/shoutouts?userId=${filter}`);
+    const fetchShoutouts = async (id: string, weekNumber: number, filter?: string) => {
+        const response = await fetch(`/api/teams/${id}/shoutouts?weekNumber=${weekNumber}&userId=${filter}`);
         return response.json();
     };
 

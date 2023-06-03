@@ -19,7 +19,6 @@ export const AppGuard = ({ session }: AppGuardProps) => {
         router.push('/teams/create');
     } else {
         const firstTeam = user.teams[0];
-        console.log('AppGuard', firstTeam);
         router.push({
             pathname: '/teams/[teamId]',
             query: {

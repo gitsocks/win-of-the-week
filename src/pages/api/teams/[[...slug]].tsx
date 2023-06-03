@@ -38,9 +38,8 @@ class TeamsHandler {
 
     @Get('/:id/shoutouts')
     @Authorize()
-    async getTeamShoutouts(@Param('id') id: string, @Res() res: NextApiResponse, @Query('userId') userId?: string) {
-        const shoutouts = await getTeamShoutouts(id, userId);
-        console.log(shoutouts);
+    async getTeamShoutouts(@Param('id') id: string, @Res() res: NextApiResponse, @Query('weekNumber') weekNumber: number, @Query('userId') userId?: string) {
+        const shoutouts = await getTeamShoutouts(id, weekNumber, userId);
         res.send(shoutouts);
     }
 
