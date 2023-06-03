@@ -15,6 +15,7 @@ model User {
   fullName String
   teams    UserTeam[]
   Shoutout Shoutout[]
+  nominations Nomination[]
 }
 
 model Team {
@@ -22,6 +23,7 @@ model Team {
   name      String     @unique
   users     UserTeam[]
   shoutouts Shoutout[]
+  nominations Nomination[]
 }
 
 model UserTeam {
@@ -41,5 +43,18 @@ model Shoutout {
   team     Team   @relation(fields: [teamId], references: [id])
   teamId   String
   authorId String
+  nominations Nomination[]
   dateCreated DateTime @default(now())
+}
+
+model Nomination {
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  shoutoutId String
+  shoutout Shoutout @relation(fields: [shoutoutId], references: [id])
+  dateCreated DateTime @default(now())
+  teamId String
+  team Team @relation(fields: [teamId], references: [id])
+
+  @@id([userId, shoutoutId])
 }

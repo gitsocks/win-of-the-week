@@ -1,4 +1,5 @@
 import { CreateShoutout } from "@/types/CreateShoutout";
+import { NominateShoutout } from "@/types/NominateShoutout";
 import { Shoutout } from "@prisma/client";
 
 export const useShoutoutService = () => {
@@ -14,7 +15,18 @@ export const useShoutoutService = () => {
         return response.json();
     };
 
+    const nominateShoutout = async (nomination: NominateShoutout) => {
+        const response = await fetch('/api/shoutouts/nominate', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(nomination),
+        });
+    };
+
     return {
-        createShoutout
+        createShoutout,
+        nominateShoutout
     };
 };

@@ -1,14 +1,17 @@
+import { ShoutoutCard } from "@/components/cards/ShoutoutCard/ShoutoutCard";
 import { SaturdaySelector } from "@/components/inputs/SaturdaySelector/SaturdaySelector";
 import { MainLayout } from "@/components/layouts/MainLayout";
 import { MembersList } from "@/components/lists/MembersList";
 import { NewShoutoutModal } from "@/components/modals/NewShoutoutModal";
 import { NextPageWithLayout } from "@/pages/_app";
 import { useFetchTeamQuery, useFetchTeamShoutoutsQuery } from "@/services/team/team-queries";
+import { ShoutoutWithUser } from "@/types/ShoutoutWithUser";
 import { getWeekDates } from "@/utils/week";
 import { Box, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FiEdit } from "react-icons/fi";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const TeamPage: NextPageWithLayout = () => {
     const router = useRouter();
@@ -67,18 +70,8 @@ const TeamPage: NextPageWithLayout = () => {
                             </Flex>
                         </CardBody>
                     </Card>
-                    {shoutouts && shoutouts.map((shoutout: any) => (
-                        <Card my={4}>
-                            <CardBody>
-                                <Flex justifyContent='space-between' alignItems="center">
-                                    <Box>
-                                        <Heading size="xs">{shoutout.user.fullName}</Heading>
-                                        <Text>{shoutout.shoutout}</Text>
-                                    </Box>
-                                    <IconButton variant="outline" aria-label="Nominate" icon={<>🏆</>} />
-                                </Flex>
-                            </CardBody>
-                        </Card>
+                    {shoutouts && shoutouts.map((shoutout: ShoutoutWithUser) => (
+                        <ShoutoutCard key={shoutout.id} shoutout={shoutout} />
                     ))}
                 </Box>
                 <MembersList />
