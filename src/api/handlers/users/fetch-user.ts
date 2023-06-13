@@ -1,4 +1,4 @@
-import prisma from '../prisma';
+import prisma from "@/api/prisma";
 
 export const fetchUser = async (id: string) => {
     const user = await prisma.user.findUnique({

@@ -1,7 +1,11 @@
-import { createUser } from "@/api/users/create-user";
-import { fetchUser } from "@/api/users/fetch-user";
+import { createUser } from "@/api/handlers/users/create-user";
+import { fetchUser } from "@/api/handlers/users/fetch-user";
+import { getCurrentUser } from "@/api/handlers/users/get-current-user.handler";
+import { Authorize } from "@/api/middleware/authorize";
+import type { UserApiRequest } from "@/api/middleware/authorize";
 import type { User } from "@prisma/client";
-import { Body, Get, HttpCode, Param, Post, Req, createHandler } from "next-api-decorators";
+import type { NextApiResponse } from "next";
+import { Body, Get, HttpCode, Param, Post, Req, Res, createHandler } from "next-api-decorators";
 
 class UsersHandler {
     @Get()
@@ -17,6 +21,14 @@ class UsersHandler {
     @Get('/:id')
     async user(@Param('id') id: string) {
         return await fetchUser(id);
+    }
+
+    @Get('/current')
+    @Authorize()
+    async getCurrentUser(@Req() req: UserApiRequest, @Res() res: NextApiResponse) {
+        console.log(req.userId);
+        const user = await getCurrentUser(req.userId);
+        res.send(user);
     }
 
     @Post()
