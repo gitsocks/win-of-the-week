@@ -4,7 +4,7 @@ import { MainLayout } from "@/components/layouts/MainLayout";
 import { MembersList } from "@/components/lists/MembersList";
 import { NewShoutoutModal } from "@/components/modals/NewShoutoutModal";
 import { NextPageWithLayout } from "@/pages/_app";
-import { useFetchTeamQuery, useFetchTeamShoutoutsQuery } from "@/services/team/team-queries";
+import { useFetchTeamMembersQuery, useFetchTeamQuery, useFetchTeamShoutoutsQuery } from "@/services/team/team-queries";
 import { ShoutoutWithUser } from "@/types/ShoutoutWithUser";
 import { getWeekDates } from "@/utils/week";
 import { Box, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Text, useToast } from "@chakra-ui/react";
@@ -16,6 +16,7 @@ const TeamPage: NextPageWithLayout = () => {
     const router = useRouter();
     const [showNewShoutoutModal, setShowNewShoutoutModal] = useState(false);
     const { teamId } = router.query;
+    const { data: members, isLoading: isLoadingMembers } = useFetchTeamMembersQuery(teamId as string);
     const { data: team, isLoading } = useFetchTeamQuery(teamId as string);
     const { weekNumber: initialWeekNumber, formattedEndOfWeek, formattedStartOfWeek } = getWeekDates();
     const [weekNumber, setWeekNumber] = useState(initialWeekNumber);
@@ -73,7 +74,7 @@ const TeamPage: NextPageWithLayout = () => {
                         <ShoutoutCard key={shoutout.id} shoutout={shoutout} isFetching={isFetching} />
                     ))}
                 </Box>
-                <MembersList />
+                {!isLoadingMembers && <MembersList members={members} />}
             </Flex>
             <NewShoutoutModal isOpen={showNewShoutoutModal} onClose={() => setShowNewShoutoutModal(false)} />
         </>

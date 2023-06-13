@@ -1,5 +1,4 @@
 import { Body, Get, Param, Post, Query, Req, Res, createHandler } from "next-api-decorators";
-import { Knock } from '@knocklabs/node';
 import { createTeam } from "@/api/handlers/teams/create-team.handler";
 import { Authorize } from "@/api/middleware/authorize";
 import type { UserApiRequest } from "@/api/middleware/authorize";
@@ -8,8 +7,6 @@ import type { NextApiResponse } from "next";
 import { getTeamById } from "@/api/handlers/teams/get-team-by-id.handler";
 import { getMembers } from "@/api/handlers/teams/get-members.handler";
 import { getTeamShoutouts } from "@/api/handlers/teams/get-team-shoutouts.handler";
-
-const knock = new Knock(process.env.NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY);
 
 interface Team {
     name: string;
