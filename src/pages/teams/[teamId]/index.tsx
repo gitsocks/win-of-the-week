@@ -17,6 +17,7 @@ const TeamPage: NextPageWithLayout = () => {
     const { teamId } = router.query;
     const { data: members, isLoading: isLoadingMembers } = useFetchTeamMembersQuery(teamId as string);
     const { weekNumber: initialWeekNumber, formattedEndOfWeek, formattedStartOfWeek } = getWeekDates();
+    const [currentWeek, setCurrentWeek] = useState(initialWeekNumber);
     const [weekNumber, setWeekNumber] = useState(initialWeekNumber);
     const { data: shoutouts, isFetching } = useFetchTeamShoutoutsQuery(teamId as string, weekNumber);
     const [startOfWeek, setStartOfWeek] = useState('');
@@ -28,9 +29,16 @@ const TeamPage: NextPageWithLayout = () => {
 
     useEffect(() => {
         setWeekNumber(initialWeekNumber);
+        setCurrentWeek(initialWeekNumber);
         setStartOfWeek(formattedStartOfWeek);
         setEndOfWeek(formattedEndOfWeek);
     }, []);
+
+    useEffect(() => {
+        const { formattedEndOfWeek: newEndOfWeek, formattedStartOfWeek: newStartOfWeek } = getWeekDates(weekNumber);
+        setStartOfWeek(newEndOfWeek);
+        setEndOfWeek(newStartOfWeek);
+    }, [weekNumber]);
 
 
 
@@ -46,7 +54,7 @@ const TeamPage: NextPageWithLayout = () => {
                     <Heading size="sm">Week {weekNumber} | {startOfWeek} - {endOfWeek}</Heading>
 
                     {shoutouts && shoutouts.map((shoutout: ShoutoutWithUser) => (
-                        <ShoutoutCard key={shoutout.id} shoutout={shoutout} isFetching={isFetching} />
+                        <ShoutoutCard key={shoutout.id} shoutout={shoutout} isFetching={isFetching} isDisabled={weekNumber !== currentWeek} />
                     ))}
                 </Box>
             </Flex>

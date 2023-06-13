@@ -6,7 +6,7 @@ export const MainLayout = ({ children }: PropsWithChildren) => {
     return (
         <BaseLayout>
             <AppBar />
-            <HStack padding="5" alignItems="top">
+            <HStack padding="4" alignItems="top">
                 {children}
             </HStack>
         </BaseLayout>

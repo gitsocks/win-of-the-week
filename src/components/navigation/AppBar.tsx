@@ -6,6 +6,7 @@ import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { NotificationBell, PopoverNotificationCenter } from "@novu/notification-center";
 import { NewShoutoutComponent } from "../shoutouts/NewShoutoutComponent/NewShoutoutComponent";
+import { TeamSelector } from "../menus/TeamSelector";
 
 export const AppBar = () => {
     const router = useRouter();
@@ -15,7 +16,7 @@ export const AppBar = () => {
 
     return (
         <Flex paddingY={2} paddingX={4} alignItems="center" justifyContent="space-between">
-            <Heading size="md">Win of the Week</Heading>
+            <TeamSelector />
             <NewShoutoutComponent />
             <Flex alignItems="center">
                 <SwitchThemeIconButton />

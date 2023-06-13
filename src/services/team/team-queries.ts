@@ -1,10 +1,10 @@
 import { useQuery } from "react-query";
 import { useTeamService } from "./team-service";
 
-export const useFetchTeamQuery = (id: string) => {
+export const useFetchTeamQuery = (id: string = "") => {
   const { fetchTeam } = useTeamService();
 
-  return useQuery(["teams", id], () => fetchTeam(id));
+  return useQuery(["teams", id], () => fetchTeam(id || ""));
 };
 
 export const useFetchTeamMembersQuery = (id: string, filter?: string) => {
