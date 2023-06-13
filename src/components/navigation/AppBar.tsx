@@ -5,19 +5,19 @@ import { AppBarMenu } from "../menus/AppBarMenu";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { NotificationBell, PopoverNotificationCenter } from "@novu/notification-center";
+import { NewShoutoutComponent } from "../shoutouts/NewShoutoutComponent/NewShoutoutComponent";
+import { TeamSelector } from "../menus/TeamSelector";
 
 export const AppBar = () => {
     const router = useRouter();
     const { session } = useSessionContext();
-    const boxBackgroundColor = useColorModeValue("teal.300", "teal.600");
-    const { colorMode } = useColorMode();
-    const handleSignOutClick = () => {
 
-    };
+    const { colorMode } = useColorMode();
 
     return (
-        <Flex paddingY={2} paddingX={4} alignItems="center" justifyContent="space-between" backgroundColor={boxBackgroundColor}>
-            <Heading size="md">Win of the Week</Heading>
+        <Flex paddingY={2} paddingX={4} alignItems="center" justifyContent="space-between">
+            <TeamSelector />
+            <NewShoutoutComponent />
             <Flex alignItems="center">
                 <SwitchThemeIconButton />
                 {session ? (

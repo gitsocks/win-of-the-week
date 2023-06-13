@@ -8,13 +8,17 @@ import { useWindowSize } from "react-use";
 interface ShoutoutCardProps {
     shoutout: ShoutoutWithUser;
     isFetching: boolean;
+    isDisabled: boolean;
 }
 
-export const ShoutoutCard = ({ shoutout, isFetching }: ShoutoutCardProps) => {
+export const ShoutoutCard = ({ shoutout, isFetching, isDisabled }: ShoutoutCardProps) => {
     const { mutate, isLoading, isSuccess } = useNominateShoutoutMutation();
     const { session } = useSessionContext();
 
     const { width, height } = useWindowSize();
+
+    const userHasNominated = shoutout.nominations?.find((nomination: any) => nomination.userId == session?.user.id) !== undefined;
+    const shouldDisableButton = userHasNominated || isDisabled;
 
     const handleNominateClick = async () => {
         await mutate({
@@ -24,13 +28,15 @@ export const ShoutoutCard = ({ shoutout, isFetching }: ShoutoutCardProps) => {
     };
 
     const getNominateIcon = isLoading || isFetching ? <Spinner /> : (
-        shoutout.nominations?.find((nomination: any) => nomination.userId == session?.user.id) ?
+        shouldDisableButton ?
             (
                 <>{shoutout.nominations.length}</>
             ) : (
                 <>🏆</>
             )
     );
+
+
 
     return (
         <>
@@ -41,7 +47,7 @@ export const ShoutoutCard = ({ shoutout, isFetching }: ShoutoutCardProps) => {
                             <Heading size="xs">{shoutout.user.fullName}</Heading>
                             <Text>{shoutout.shoutout}</Text>
                         </Box>
-                        <IconButton isDisabled={shoutout.nominations.find(nomination => nomination.userId == session?.user.id) !== undefined} onClick={handleNominateClick} variant="outline" aria-label="Nominate" icon={getNominateIcon} />
+                        <IconButton isDisabled={shouldDisableButton} onClick={handleNominateClick} variant="outline" aria-label="Nominate" icon={getNominateIcon} />
                     </Flex>
                 </CardBody>
             </Card>
