@@ -36,8 +36,6 @@ export const ShoutoutCard = ({ shoutout, isFetching, isDisabled }: ShoutoutCardP
             )
     );
 
-
-
     return (
         <>
             <Card my={4}>
@@ -52,7 +50,6 @@ export const ShoutoutCard = ({ shoutout, isFetching, isDisabled }: ShoutoutCardP
                 </CardBody>
             </Card>
             {isSuccess && <Confetti
-
                 width={width}
                 height={height}
                 numberOfPieces={1000}
