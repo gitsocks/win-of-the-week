@@ -11,7 +11,7 @@ export const AppBarMenu = () => {
 
     return (
         <Menu colorScheme="teal">
-            <MenuButton as={IconButton} icon={<Icon as={FiMoreVertical} />} variant="ghost" aria-label="Appbar Menu" />
+            <MenuButton as={IconButton} icon={<Icon as={FiMoreVertical} />} variant="ghost" colorScheme="teal" aria-label="Appbar Menu" />
             <MenuList>
                 <MenuItem onClick={handleSignOutClick} icon={<Icon as={FiLogOut} />}>
                     Sign Out

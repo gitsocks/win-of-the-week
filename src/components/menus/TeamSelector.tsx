@@ -16,7 +16,7 @@ export const TeamSelector = () => {
 
     return (
         <>
-            <Button onClick={() => onOpen()} variant="link" rightIcon={isLoading ? <Spinner /> : <FiChevronDown />}>{team && team.name}</Button>
+            <Button colorScheme="teal" onClick={() => onOpen()} variant="link" rightIcon={isLoading ? <Spinner /> : <FiChevronDown />}>{team && team.name}</Button>
             <SwitchTeamModal isOpen={isOpen} onClose={handleModalClose} />
         </>
     );

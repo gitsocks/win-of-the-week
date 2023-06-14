@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import { NotificationBell, PopoverNotificationCenter } from "@novu/notification-center";
 import { NewShoutoutComponent } from "../shoutouts/NewShoutoutComponent/NewShoutoutComponent";
 import { TeamSelector } from "../menus/TeamSelector";
+import { FiBell } from "react-icons/fi";
+import { NotificationsBellButton } from "../buttons/NotificationsBellButton";
 
 export const AppBar = () => {
     const router = useRouter();
@@ -22,8 +24,22 @@ export const AppBar = () => {
                 <SwitchThemeIconButton />
                 {session ? (
                     <>
-                        <PopoverNotificationCenter colorScheme={colorMode}>
-                            {({ unseenCount }) => <NotificationBell unseenCount={unseenCount} />}
+                        <PopoverNotificationCenter theme={{
+                            dark: {
+                                layout: {
+                                    background: '#1a202c'
+                                },
+                                notificationItem: {
+                                    unread: {
+                                        background: 'teal'
+                                    },
+                                    read: {
+                                        background: '#2d3748'
+                                    }
+                                }
+                            }
+                        }} colorScheme={colorMode}>
+                            {({ unseenCount }) => <NotificationsBellButton unseenCount={unseenCount} />}
                         </PopoverNotificationCenter>
                         <AppBarMenu />
                     </>
