@@ -47,6 +47,7 @@ model Shoutout {
   authorId String
   nominations Nomination[]
   dateCreated DateTime @default(now())
+  winOfTheWeek WinOfTheWeek?
 }
 
 model Nomination {
@@ -68,4 +69,11 @@ model Invite {
   team     Team   @relation(fields: [teamId], references: [id])
   teamId   String
   dateCreated DateTime @default(now())
+}
+
+model WinOfTheWeek {
+  id String @id @default(uuid())
+  dateCreated DateTime @default(now()) 
+  shoutoutId String @unique
+  shoutout Shoutout @relation(fields: [shoutoutId], references: [id])
 }

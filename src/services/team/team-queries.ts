@@ -25,3 +25,8 @@ export const useFetchTeamShoutoutsQuery = (
     fetchShoutouts(id, weekNumber, filter)
   );
 };
+
+export const useGetWinOfTheWeekQuery = (teamId: string) => {
+  const { getWinOfTheWeek } = useTeamService();
+  return useQuery(["teams", teamId, "wotw"], () => getWinOfTheWeek(teamId));
+};
