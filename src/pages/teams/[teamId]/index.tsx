@@ -7,7 +7,7 @@ import { NextPageWithLayout } from "@/pages/_app";
 import { useFetchTeamMembersQuery, useFetchTeamQuery, useFetchTeamShoutoutsQuery } from "@/services/team/team-queries";
 import { ShoutoutWithUser } from "@/types/ShoutoutWithUser";
 import { getWeekDates } from "@/utils/week";
-import { Box, Card, CardBody, CardFooter, CardHeader, Container, Flex, HStack, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, HStack, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -44,7 +44,7 @@ const TeamPage: NextPageWithLayout = () => {
 
     return (
         <>
-            {!isLoadingMembers && <MembersList members={members} />}
+            {!isLoadingMembers && <MembersList teamId={teamId as string} members={members} />}
             <Flex justifyContent="space-between" width="full" paddingX={5}>
                 <Box width="full">
                     <Flex justifyContent="space-between" alignItems="center">

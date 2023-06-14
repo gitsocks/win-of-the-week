@@ -19,7 +19,5 @@ export const getCurrentUser = async (userId: string) => {
     },
   });
 
-  console.log("From PRISMA", user);
-
   return user;
 };
