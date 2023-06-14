@@ -1,20 +1,25 @@
 import { SignInWithMicrosoftButton } from "@/components/buttons/SignInWithMicrosoftButton";
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, useToast } from "@chakra-ui/react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export interface RegisterFormProps {
-    onSuccessfulRegister: () => void;
-    onLoginClick: () => void;
+    onSuccessfulRegister?: () => void;
+    onLoginClick?: () => void;
+    redirectTo?: string;
 }
 
-export const RegisterForm = ({ onSuccessfulRegister, onLoginClick }: RegisterFormProps) => {
+export const RegisterForm = ({ onSuccessfulRegister, onLoginClick, redirectTo }: RegisterFormProps) => {
     const [fullname, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const supabase = createClientComponentClient();
     const toast = useToast();
+    const router = useRouter();
+    const redirectToUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${redirectTo}`;
+
 
     const handleRegister = async () => {
         const response = await supabase.auth.signUp({
@@ -56,7 +61,11 @@ export const RegisterForm = ({ onSuccessfulRegister, onLoginClick }: RegisterFor
             body: JSON.stringify(data),
         });
 
-        onSuccessfulRegister();
+        if (onSuccessfulRegister) {
+            onSuccessfulRegister();
+        } else if (redirectTo) {
+            router.push(redirectTo);
+        }
     };
 
     const handleMicrosoftClick = async () => {
@@ -64,6 +73,7 @@ export const RegisterForm = ({ onSuccessfulRegister, onLoginClick }: RegisterFor
             provider: 'azure',
             options: {
                 scopes: 'email',
+                redirectTo: redirectToUrl
             },
         });
     };

@@ -13,5 +13,18 @@ export const useInviteService = () => {
     return response.json();
   };
 
-  return { createInvite };
+  const getInvite = async (id: string) => {
+    const response = await fetch(`/api/invites/${id}`);
+    return response.json();
+  };
+
+  const acceptInvite = async (id: string) => {
+    const response = await fetch(`/api/invites/${id}/accept`, {
+      method: "POST",
+    });
+
+    return response.json();
+  };
+
+  return { createInvite, getInvite, acceptInvite };
 };
