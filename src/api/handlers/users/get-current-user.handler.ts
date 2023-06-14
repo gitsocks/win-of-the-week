@@ -1,24 +1,25 @@
 import prisma from "@/api/prisma";
-import { CurrentUser } from "@/types/CurrentUser";
 
 export const getCurrentUser = async (userId: string) => {
-    const user = await prisma.user.findUnique({
-        where: {
-            id: userId
-        },
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      teams: {
         include: {
-            teams: {
-                include: {
-                    team: {
-                        select: {
-                            id: true,
-                            name: true
-                        }
-                    }
-                }
-            }
-        }
-    });
+          team: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  });
 
-    return user;
+  console.log("From PRISMA", user);
+
+  return user;
 };
