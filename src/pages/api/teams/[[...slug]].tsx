@@ -7,6 +7,7 @@ import type { NextApiResponse } from "next";
 import { getTeamById } from "@/api/handlers/teams/get-team-by-id.handler";
 import { getMembers } from "@/api/handlers/teams/get-members.handler";
 import { getTeamShoutouts } from "@/api/handlers/teams/get-team-shoutouts.handler";
+import { createWinOfTheWeek } from "@/api/handlers/win/create-win-of-the-week.handler";
 
 interface Team {
     name: string;
@@ -38,6 +39,12 @@ class TeamsHandler {
     async getTeamShoutouts(@Param('id') id: string, @Res() res: NextApiResponse, @Query('weekNumber') weekNumber: number, @Query('userId') userId?: string) {
         const shoutouts = await getTeamShoutouts(id, weekNumber, userId);
         res.send(shoutouts);
+    }
+
+    @Get('/:id/wotw')
+    async getTeamWinOfTheWeek(@Param('id') id: string) {
+        const result = await createWinOfTheWeek(id);
+        return result;
     }
 
     @Post()
