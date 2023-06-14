@@ -1,14 +1,10 @@
-import { useUserQuery } from "@/services/user/user-queries";
+import { useCurrentUserQuery, useUserQuery } from "@/services/user/user-queries";
 import { Spinner } from "@chakra-ui/react";
 import { Session, useSessionContext } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 
-interface AppGuardProps {
-    session: Session;
-}
-
-export const AppGuard = ({ session }: AppGuardProps) => {
-    const { data: user, isLoading } = useUserQuery(session.user.id);
+export const AppGuard = () => {
+    const { data: user, isLoading } = useCurrentUserQuery();
     const router = useRouter();
 
     if (isLoading) {

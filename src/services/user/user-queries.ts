@@ -8,7 +8,7 @@ export const useUserQuery = (id: string) => {
 
 export const useCurrentUserQuery = () => {
   const { getCurrentUser } = useUserService();
-  return useQuery(["users", "current"], () => getCurrentUser);
+  return useQuery(["users", "current"], () => getCurrentUser());
 };
 
 export const useFetchUserTeamsQuery = (id: string = "") => {

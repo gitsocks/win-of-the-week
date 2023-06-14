@@ -13,11 +13,11 @@ export const useUserService = () => {
     const response = await fetch("/api/users/current", {
       method: "GET",
     });
-    console.log(response);
+
     try {
       return response.json();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return undefined;
     }
   };

@@ -17,7 +17,7 @@ const HomePage: NextPageWithLayout = () => {
 
   return (session &&
     <AuthGuard>
-      <AppGuard session={session} />
+      <AppGuard />
     </AuthGuard >
   );
 };
