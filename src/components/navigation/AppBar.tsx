@@ -39,7 +39,7 @@ export const AppBar = () => {
                                 }
                             }
                         }} colorScheme={colorMode}>
-                            {({ unseenCount }) => <NotificationsBellButton unseenCount={unseenCount} />}
+                            {({ unseenCount }) => <NotificationsBellButton unseenCount={unseenCount || 0} />}
                         </PopoverNotificationCenter>
                         <AppBarMenu />
                     </>
