@@ -8,6 +8,7 @@ import { getTeamById } from "@/api/handlers/teams/get-team-by-id.handler";
 import { getMembers } from "@/api/handlers/teams/get-members.handler";
 import { getTeamShoutouts } from "@/api/handlers/teams/get-team-shoutouts.handler";
 import { createWinOfTheWeek } from "@/api/handlers/win/create-win-of-the-week.handler";
+import { getWinOfTheWeek } from "@/api/handlers/win/get-win-of-the-week.handler";
 
 interface Team {
     name: string;
@@ -43,6 +44,12 @@ class TeamsHandler {
 
     @Get('/:id/wotw')
     async getTeamWinOfTheWeek(@Param('id') id: string) {
+        const result = await getWinOfTheWeek(id);
+        return result;
+    }
+
+    @Post('/:id/wotw')
+    async createTeamWinOfTheWeek(@Param('id') id: string) {
         const result = await createWinOfTheWeek(id);
         return result;
     }

@@ -39,10 +39,24 @@ export const useTeamService = () => {
     return response.json();
   };
 
+  const getWinOfTheWeek = async (teamId: string) => {
+    const response = await fetch(`/api/teams/${teamId}/wotw`);
+    return response.json();
+  };
+
+  const createWinOfTheWeek = async (teamId: string) => {
+    const response = await fetch(`/api/teams/${teamId}/wotw`, {
+      method: "POST",
+    });
+    return response.json();
+  };
+
   return {
     fetchTeam,
     fetchMembers,
     fetchShoutouts,
     createTeam,
+    getWinOfTheWeek,
+    createWinOfTheWeek,
   };
 };
