@@ -1,3 +1,4 @@
+import { SignInWithMicrosoftButton } from "@/components/buttons/SignInWithMicrosoftButton";
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, useColorMode, useColorModeValue, useToast } from "@chakra-ui/react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
@@ -35,6 +36,15 @@ export const LoginForm = ({ loginSuccess, onRegisterClick }: LoginFormProps) => 
         loginSuccess();
     };
 
+    const handleMicrosoftClick = async () => {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'azure',
+            options: {
+                scopes: 'email,offline_access',
+            },
+        });
+    };
+
     const handleRegisterAccountClick = () => onRegisterClick();
 
     return (
@@ -57,6 +67,7 @@ export const LoginForm = ({ loginSuccess, onRegisterClick }: LoginFormProps) => 
             </FormControl>
             <Flex direction='column'>
                 <Button mt={4} mb={4} colorScheme="teal" onClick={handleSignIn}>Sign In</Button>
+                <SignInWithMicrosoftButton onClick={handleMicrosoftClick} />
                 <Button mb={4} variant="link" onClick={handleRegisterAccountClick}>Register an account?</Button>
             </Flex>
         </Box>

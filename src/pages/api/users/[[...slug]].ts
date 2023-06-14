@@ -5,7 +5,6 @@ import { getUserTeams } from "@/api/handlers/users/get-user-teams";
 import { Authorize } from "@/api/middleware/authorize";
 import type { UserApiRequest } from "@/api/middleware/authorize";
 import type { User } from "@prisma/client";
-import type { NextApiResponse } from "next";
 import {
   Body,
   Get,
@@ -16,16 +15,68 @@ import {
   Res,
   createHandler,
 } from "next-api-decorators";
+export interface AzureToken {
+  aud: string;
+  exp: number;
+  sub: string;
+  email: string;
+  phone: string;
+  app_metadata: {
+    provider: string;
+    providers: string[];
+  };
+  user_metadata: {
+    email: string;
+    email_verified: boolean;
+    full_name: string;
+    iss: string;
+    name: string;
+    provider_id: string;
+    sub: string;
+  };
+  role: string;
+  aal: string;
+  amr: {
+    method: string;
+    timestamp: number;
+  }[];
+  session_id: string;
+}
+
+const getUserFromAzureJwt = (token: string) => {
+  const [, payloadBase64] = token.split(".");
+  const payload = Buffer.from(payloadBase64, "base64").toString();
+  const tokenObject: AzureToken = JSON.parse(payload);
+
+  return {
+    id: tokenObject.sub,
+    name: tokenObject.user_metadata.name,
+    email: tokenObject.email,
+  };
+};
 
 class UsersHandler {
-  @Get()
-  users() {
-    return [
-      {
-        id: "abc-def",
-        fullName: "Billy Anderson",
-      },
-    ];
+  @Get("/current")
+  @Authorize()
+  async getCurrentUser(@Req() req: UserApiRequest) {
+    let user = await getCurrentUser(req.userId);
+
+    if (!user) {
+      const azureUser = getUserFromAzureJwt(req.accessToken);
+
+      try {
+        await createUser({
+          id: req.userId,
+          fullName: azureUser.name || "Stranger Danger",
+        });
+
+        user = await getCurrentUser(req.userId);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    return user;
   }
 
   @Get("/:id")
@@ -36,17 +87,6 @@ class UsersHandler {
   @Get("/:id/teams")
   async userTeams(@Param("id") id: string) {
     return await getUserTeams(id);
-  }
-
-  @Get("/current")
-  @Authorize()
-  async getCurrentUser(
-    @Req() req: UserApiRequest,
-    @Res() res: NextApiResponse
-  ) {
-    console.log(req.userId);
-    const user = await getCurrentUser(req.userId);
-    res.send(user);
   }
 
   @Post()

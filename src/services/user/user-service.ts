@@ -9,6 +9,19 @@ export const useUserService = () => {
     return response.json();
   };
 
+  const getCurrentUser = async () => {
+    const response = await fetch("/api/users/current", {
+      method: "GET",
+    });
+    console.log(response);
+    try {
+      return response.json();
+    } catch (error) {
+      console.log(error);
+      return undefined;
+    }
+  };
+
   const getUserTeams = async (id: string) => {
     const response = await fetch(`/api/users/${id}/teams`);
     return response.json();
@@ -17,5 +30,6 @@ export const useUserService = () => {
   return {
     getUserById,
     getUserTeams,
+    getCurrentUser,
   };
 };

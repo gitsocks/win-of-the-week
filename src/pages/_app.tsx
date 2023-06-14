@@ -1,3 +1,4 @@
+import { CurrentUserProvider } from '@/providers/CurrentUserProvider';
 import { NotificationsProvider } from '@/providers/NotificationsProvider';
 import '@/styles/globals.css';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -28,9 +29,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       initialSession={null}>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider>
-          <NotificationsProvider>
-            {getLayout(<Component {...pageProps} />)}
-          </NotificationsProvider>
+          <CurrentUserProvider>
+            <NotificationsProvider>
+              {getLayout(<Component {...pageProps} />)}
+            </NotificationsProvider>
+          </CurrentUserProvider>
         </ChakraProvider>
       </QueryClientProvider>
     </SessionContextProvider>
