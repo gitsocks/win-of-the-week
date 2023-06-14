@@ -14,8 +14,6 @@ export const CreateWinOfTheWeekModal = ({ teamId }: CreateWinOfTheWeekModalProps
 
     useEffect(() => {
         if (!isLoading) {
-            console.log(!winOfTheWeek && isFriday);
-            console.log(winOfTheWeek);
             if (!winOfTheWeek && isFriday) {
                 onOpen();
             } else {

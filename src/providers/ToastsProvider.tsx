@@ -11,7 +11,6 @@ export const ToastsProvider = ({ children }: PropsWithChildren) => {
         if (!isFetching && notifications) {
             notifications.forEach((message) => {
                 if (!message.seen) {
-                    console.log(message);
                     toast({
                         description: message.content as string,
                         position: 'bottom-left'

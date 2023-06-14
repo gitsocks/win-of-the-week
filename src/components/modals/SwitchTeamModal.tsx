@@ -13,7 +13,7 @@ export const SwitchTeamModal = ({ isOpen, onClose }: SwitchTeamModalProps) => {
     const { session } = useSessionContext();
     const router = useRouter();
     const { teamId } = router.query;
-    const { data: userTeams, isLoading } = useFetchUserTeamsQuery(session?.user.id);
+    const { data: userTeams, isLoading } = useFetchUserTeamsQuery(session?.user.id || '');
 
     const handleTeamSwitch = (switchToTeamId: string) => {
         router.push({
