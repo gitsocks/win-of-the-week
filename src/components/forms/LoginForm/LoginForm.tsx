@@ -7,7 +7,7 @@ import { useState } from "react";
 export interface LoginFormProps {
     loginSuccess: () => void;
     onRegisterClick: () => void;
-    redirectTo?: string;
+    redirectTo: string;
 }
 
 export const LoginForm = ({ loginSuccess, onRegisterClick, redirectTo }: LoginFormProps) => {
@@ -79,7 +79,7 @@ export const LoginForm = ({ loginSuccess, onRegisterClick, redirectTo }: LoginFo
             <Flex direction='column'>
                 <Button mt={4} mb={4} colorScheme="teal" onClick={handleSignIn}>Sign In</Button>
                 <SignInWithMicrosoftButton onClick={handleMicrosoftClick} />
-                <Button mb={4} variant="link" onClick={handleRegisterAccountClick}>Register an account?</Button>
+                <Button mt={4} variant="link" onClick={handleRegisterAccountClick}>Register an account?</Button>
             </Flex>
         </Box>
     );

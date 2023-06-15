@@ -21,7 +21,7 @@ const RegisterPage: NextPageWithLayout = () => {
         <>
             <Flex justifyContent='space-around' alignItems='center' height='90vh'>
                 <Box width='sm' padding='4' backgroundColor={formBackground} borderRadius='8'>
-                    <RegisterForm onSuccessfulRegister={handleSuccessfulRegister} onLoginClick={() => router.push('/auth/login')} />
+                    <RegisterForm redirectTo="" onSuccessfulRegister={handleSuccessfulRegister} onLoginClick={() => router.push('/auth/login')} />
                 </Box>
             </Flex>
 

@@ -7,7 +7,7 @@ import { useState } from "react";
 export interface RegisterFormProps {
     onSuccessfulRegister?: () => void;
     onLoginClick?: () => void;
-    redirectTo?: string;
+    redirectTo: string;
 }
 
 export const RegisterForm = ({ onSuccessfulRegister, onLoginClick, redirectTo }: RegisterFormProps) => {
@@ -103,7 +103,7 @@ export const RegisterForm = ({ onSuccessfulRegister, onLoginClick, redirectTo }:
             <Flex direction="column">
                 <Button mt={4} mb={4} colorScheme="teal" onClick={handleRegister}>Register</Button>
                 <SignInWithMicrosoftButton onClick={handleMicrosoftClick} />
-                <Button mb={4} variant="link" onClick={onLoginClick}>Login instead?</Button>
+                <Button mt={4} variant="link" onClick={onLoginClick}>Login instead?</Button>
             </Flex>
         </Box>
     );
