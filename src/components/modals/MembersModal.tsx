@@ -21,7 +21,7 @@ export const MembersModal = ({ isOpen, onClose, members, teamId }: MembersModalP
                 <ModalHeader>View Members</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <MembersList teamId={teamId} members={members} />
+                    <MembersList teamId={teamId} />
                 </ModalBody>
                 <ModalFooter />
             </ModalContent>
