@@ -65,10 +65,13 @@ class UsersHandler {
       const azureUser = getUserFromAzureJwt(req.accessToken);
 
       try {
-        await createUser({
-          id: req.userId,
-          fullName: azureUser.name || "Stranger Danger",
-        });
+        await createUser(
+          {
+            id: req.userId,
+            fullName: azureUser.name || "Stranger Danger",
+          },
+          req.email
+        );
 
         user = await getCurrentUser(req.userId);
       } catch (error) {
@@ -91,8 +94,8 @@ class UsersHandler {
 
   @Post()
   @HttpCode(201)
-  async createUser(@Body() user: User) {
-    await createUser(user);
+  async createUser(@Req() req: UserApiRequest, @Body() user: User) {
+    await createUser(user, req.email);
     return user;
   }
 }
