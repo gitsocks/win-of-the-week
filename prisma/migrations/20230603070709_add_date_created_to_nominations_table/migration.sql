@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Nomination" ADD COLUMN     "dateCreated" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

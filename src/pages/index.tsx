@@ -1,30 +1,27 @@
-import { Heading, Text } from "@chakra-ui/react";
+import { Button, Heading, Spinner } from "@chakra-ui/react";
+import { useSessionContext } from "@supabase/auth-helpers-react";
+import { ReactElement, useEffect, useState } from "react";
+import { NextPageWithLayout } from "./_app";
+import { MainLayout } from "@/components/layouts/MainLayout";
+import { AuthGuard } from "@/components/guards/AuthGuard";
+import { WelcomeUserHeader } from "@/components/headers/WelcomeUserHeader";
+import { useTeamService } from "@/services/team/team-service";
+import { AppGuard } from "@/components/guards/AppGuard";
 
-export async function getStaticProps() {
-  const helloWorld = process.env.HELLO_WORLD;
-  const anotherVariable = process.env.ANOTHER_VARIABLE;
+const HomePage: NextPageWithLayout = () => {
+  const { isLoading, session } = useSessionContext();
 
-  return {
-    props: {
-      helloWorld,
-      anotherVariable
-    }
-  };
-}
+  if (isLoading) {
+    return <Spinner size="xl" />;
+  }
 
-export interface HomePageProps {
-  helloWorld: string;
-  anotherVariable: string;
-}
-
-const HomePage = ({ helloWorld, anotherVariable }: HomePageProps) => {
   return (
-    <>
-      <Heading>Welcome to Win of the Week</Heading>
-      <Text>{helloWorld || 'No helloWorld found'}</Text>
-      <Text>{anotherVariable || 'No anotherVariable found'}</Text>
-    </>
+    <AuthGuard>
+      <AppGuard />
+    </AuthGuard >
   );
 };
+
+HomePage.getLayout = (page: ReactElement) => <MainLayout>{page}</MainLayout>;
 
 export default HomePage;
