@@ -7,7 +7,7 @@ import { useState } from "react";
 export interface LoginFormProps {
     loginSuccess: () => void;
     onRegisterClick: () => void;
-    redirectTo?: string;
+    redirectTo: string;
 }
 
 export const LoginForm = ({ loginSuccess, onRegisterClick, redirectTo }: LoginFormProps) => {

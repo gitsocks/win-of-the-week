@@ -17,7 +17,7 @@ export const AppBar = () => {
     const { colorMode } = useColorMode();
 
     return (
-        <Flex paddingY={2} paddingX={4} alignItems="center" justifyContent="space-between">
+        <Flex paddingY={4} paddingX={8} alignItems="center" justifyContent="space-between">
             <TeamSelector />
             <NewShoutoutComponent />
             <Flex alignItems="center">

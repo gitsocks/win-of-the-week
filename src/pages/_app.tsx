@@ -8,6 +8,9 @@ import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import '@fontsource/roboto-flex/400.css';
+import '@fontsource/roboto-mono';
+import theme from '@/theme';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -28,7 +31,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       supabaseClient={supabaseClient}
       initialSession={null}>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           <CurrentUserProvider>
             <NotificationsProvider>
               {getLayout(<Component {...pageProps} />)}

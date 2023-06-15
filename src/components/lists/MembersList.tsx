@@ -39,10 +39,7 @@ export const MembersList = ({ members, teamId }: MembersListProps) => {
     }, [isSuccess]);
 
     return (
-        <Card backgroundColor={formBackground} width="xs" shadow={0} height="fit-content">
-            <CardHeader pb={0}>
-                <Heading p={0} size="sm">Members</Heading>
-            </CardHeader>
+        <Card backgroundColor={formBackground} shadow={0} height="fit-content">
             <CardBody>
                 <Button onClick={handleInviteClick} width="full" mb={4}>Invite to Team</Button>
                 <Divider mb={4} />
