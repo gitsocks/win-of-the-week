@@ -7,13 +7,16 @@ export const AuthGuard = ({ children }: PropsWithChildren) => {
     const router = useRouter();
     const { session, isLoading } = useSessionContext();
 
-    useEffect(() => {
-        if (!isLoading && !session) {
-            router.push('/auth/login');
-        }
-    }, [session]);
+    const navigateToLogin = () => {
+        router.push('/auth/login');
 
-    return (
-        isLoading ? <Spinner /> : <>{children}</>
-    );
+    };
+    if (isLoading) {
+        return <Spinner />;
+    } else if (!session?.user.id) {
+        navigateToLogin();
+        return null;
+    } else {
+        return <>{children}</>;
+    }
 };

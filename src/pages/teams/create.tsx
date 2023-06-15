@@ -1,4 +1,5 @@
 import { CreateTeamForm } from "@/components/forms/CreateTeamForm/CreateTeamForm";
+import { AuthGuard } from "@/components/guards/AuthGuard";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -16,11 +17,14 @@ const CreateTeamPage = () => {
     };
 
     return (
-        <Flex justifyContent="space-around" alignItems='center' height='90vh'>
-            <Box width="lg" padding='4' backgroundColor={formBackground} borderRadius='8'>
-                <CreateTeamForm onSuccess={handleTeamCreate} />
-            </Box>
-        </Flex>
+        <AuthGuard>
+            <Flex justifyContent="space-around" alignItems='center' height='90vh'>
+                <Box width="lg" padding='4' backgroundColor={formBackground} borderRadius='8'>
+
+                    <CreateTeamForm onSuccess={handleTeamCreate} />
+                </Box>
+            </Flex>
+        </AuthGuard>
     );
 };
 

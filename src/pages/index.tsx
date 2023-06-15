@@ -15,7 +15,7 @@ const HomePage: NextPageWithLayout = () => {
     return <Spinner size="xl" />;
   }
 
-  return (session &&
+  return (
     <AuthGuard>
       <AppGuard />
     </AuthGuard >
