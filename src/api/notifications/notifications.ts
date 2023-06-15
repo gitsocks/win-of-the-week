@@ -28,8 +28,24 @@ export const useNotifications = () => {
     });
   };
 
+  const createSubscriber = async (
+    id: string,
+    fullName: string = "Pickle Berry",
+    email: string
+  ) => {
+    const [firstName, lastName] = fullName.split(" ");
+    const subscriber = await novu.subscribers.identify(id, {
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+    });
+
+    return subscriber;
+  };
+
   return {
     newShoutout,
     newNomination,
+    createSubscriber,
   };
 };

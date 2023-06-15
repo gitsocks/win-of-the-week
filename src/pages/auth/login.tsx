@@ -16,7 +16,7 @@ const LoginPage: NextPageWithLayout = () => {
     return (
         <Flex justifyContent='space-around' alignItems='center' height='90vh'>
             <Box width='sm' padding='4' backgroundColor={formBackground} borderRadius='8'>
-                <LoginForm loginSuccess={handleLoginSuccess} onRegisterClick={handleRegisterClick} />
+                <LoginForm redirectTo="" loginSuccess={handleLoginSuccess} onRegisterClick={handleRegisterClick} />
             </Box>
         </Flex>
     );

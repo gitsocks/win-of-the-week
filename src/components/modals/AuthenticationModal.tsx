@@ -9,7 +9,7 @@ interface AuthenticationModalProps {
     isOpen: boolean;
     onAuthenticate?: () => void;
     onClose?: () => void;
-    redirectTo?: string;
+    redirectTo: string;
 }
 
 export const AuthenticationModal = ({ isOpen, onClose, title, onAuthenticate, redirectTo }: AuthenticationModalProps) => {

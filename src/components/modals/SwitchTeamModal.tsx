@@ -24,6 +24,8 @@ export const SwitchTeamModal = ({ isOpen, onClose }: SwitchTeamModalProps) => {
         onClose();
     };
 
+    const userHasOtherTeams = userTeams && userTeams.length > 0 && userTeams.filter((team: any) => team.id !== teamId).length > 0;
+
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
@@ -35,9 +37,16 @@ export const SwitchTeamModal = ({ isOpen, onClose }: SwitchTeamModalProps) => {
                         <Spinner size="lg" />
                     ) : (
                         <Stack spacing='4'>
-                            {userTeams && userTeams.filter((team: any) => team.id !== teamId).map((team: any) => (
-                                <Button key={team.id} onClick={() => handleTeamSwitch(team.id)} leftIcon={<FiHash />} justifyContent="start" size="lg">{team.name}</Button>
-                            ))}
+                            {userTeams && userTeams.length > 0 && userHasOtherTeams ? (
+                                userTeams
+                                    .filter((team: any) => team.id !== teamId)
+                                    .map((team: any) => (
+                                        <Button key={team.id} onClick={() => handleTeamSwitch(team.id)} leftIcon={<FiHash />} justifyContent="start" size="lg">{team.name}</Button>
+                                    ))) : (
+                                <Flex justifyContent="space-around" alignItems="center">
+                                    <Heading size="sm" fontWeight="light">👍 There are no other teams.</Heading>
+                                </Flex>
+                            )}
                         </Stack>
                     )}
                 </ModalBody>
