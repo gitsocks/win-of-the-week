@@ -88,7 +88,7 @@ export const AppBar = () => {
                     </DrawerBody>
 
                     <DrawerFooter>
-                        <Button onClick={() => supabase.auth.signOut()} w="full" leftIcon={<>👋</>} colorScheme='teal'>Logout</Button>
+                        <Button onClick={() => supabase.auth.signOut()} w="full" leftIcon={<FiLogOut />} colorScheme='teal'>Logout</Button>
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
