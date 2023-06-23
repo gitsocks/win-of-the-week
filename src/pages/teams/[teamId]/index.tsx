@@ -6,10 +6,11 @@ import { MembersList } from "@/components/lists/MembersList";
 import { MembersModal } from "@/components/modals/MembersModal";
 import { NewShoutoutModal } from "@/components/modals/NewShoutoutModal";
 import { NextPageWithLayout } from "@/pages/_app";
-import { useFetchTeamMembersQuery, useFetchTeamQuery, useFetchTeamShoutoutsQuery } from "@/services/team/team-queries";
+import { useCreateWinOfTheWeekMutation } from "@/services/team/team-mutations";
+import { useFetchTeamMembersQuery, useFetchTeamQuery, useFetchTeamShoutoutsQuery, useGetWinOfTheWeekQuery } from "@/services/team/team-queries";
 import { ShoutoutWithUser } from "@/types/ShoutoutWithUser";
 import { getWeekDates } from "@/utils/week";
-import { Avatar, AvatarGroup, Box, Container, Flex, HStack, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Text, useBreakpointValue, useDisclosure, useToast } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Avatar, AvatarGroup, Box, Container, Flex, HStack, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Kbd, Spinner, Text, useBreakpointValue, useDisclosure, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -27,6 +28,10 @@ const TeamPage: NextPageWithLayout = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const isSmallScreen = useBreakpointValue({ base: true, xl: false });
+
+    const { data: winOfTheWeek, isLoading } = useGetWinOfTheWeekQuery(teamId as string);
+    const { mutate: createWinOfTheWeek, isLoading: isCreating } = useCreateWinOfTheWeekMutation();
+    const isFriday = new Date().getDay() === 5;
 
     const handleWeekChange = (newWeek: number) => {
         setWeekNumber(newWeek);
@@ -60,6 +65,19 @@ const TeamPage: NextPageWithLayout = () => {
                     {isSmallScreen ? <Heading size="sx">{startOfWeek}</Heading> : <Heading size="sm">Week {weekNumber} | {startOfWeek} - {endOfWeek}</Heading>}
                     <SaturdaySelector weekNumber={weekNumber} onWeekChange={handleWeekChange} />
                 </Flex>
+                {!winOfTheWeek && isFriday && (
+                    <Alert cursor="pointer" onClick={() => createWinOfTheWeek(teamId as string)} status='info' borderRadius={5}>
+                        {isCreating ? (
+                            <Spinner />
+                        ) : (
+                            <>
+                                <AlertIcon />
+                                <AlertTitle>Time for Win of the Week!</AlertTitle>
+                                <AlertDescription>Click here to create the win of the week</AlertDescription>
+                            </>
+                        )}
+                    </Alert>
+                )}
                 {shoutouts && shoutouts.length > 0 && shoutouts.map((shoutout: ShoutoutWithUser) => (
                     <ShoutoutCard key={shoutout.id} shoutout={shoutout} isFetching={isFetching} isDisabled={weekNumber !== currentWeek} />
                 ))}
